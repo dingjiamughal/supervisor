@@ -1,4 +1,4 @@
 <template lang="pug">
-    .detail
-        p 123213
+    div
+        p 404
 </template>

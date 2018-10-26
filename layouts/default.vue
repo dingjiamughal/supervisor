@@ -1,56 +1,47 @@
 <template lang="pug">
-    div
-        p qweqweqw
-        nuxt
+    .app
+        header
+            .header-title
+                nuxt-link(to="/")
+                    | EasyDL Supervisor
+        nuxt.app-container
 </template>
 
-<style>
-    html {
-        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-            Roboto, 'Helvetica Neue', Arial, sans-serif;
-        font-size: 16px;
-        word-spacing: 1px;
-        -ms-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        box-sizing: border-box;
-    }
+<style lang="less" scoped>
+header {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    height: @header-app-h;
+    background: #fff;
+    z-index: 9;
 
-    *,
-    *:before,
-    *:after {
-        box-sizing: border-box;
-        margin: 0;
-    }
-
-    .button--green {
+    .header-title {
+        line-height: @header-app-h;
         display: inline-block;
-        border-radius: 4px;
-        border: 1px solid #3b8070;
-        color: #3b8070;
-        text-decoration: none;
-        padding: 10px 30px;
-    }
+        font-size: 25px;
+        padding-left: @offsetLeft;
 
-    .button--green:hover {
-        color: #fff;
-        background-color: #3b8070;
+        a {
+            color: #d64244;
+            cursor: pointer;
+            text-decoration: none;
+            outline: none;
+            transition: color .2s ease;
+        }
     }
+}
 
-    .button--grey {
-        display: inline-block;
-        border-radius: 4px;
-        border: 1px solid #35495e;
-        color: #35495e;
-        text-decoration: none;
-        padding: 10px 30px;
-        margin-left: 15px;
-    }
-
-    .button--grey:hover {
-        color: #fff;
-        background-color: #35495e;
-    }
-
+.app-container {
+    padding: 20px @offsetLeft 20px;
+    position: absolute;
+    top: @header-app-h;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: ~"calc(100% - 50px)";
+    overflow: auto;
+}
 </style>

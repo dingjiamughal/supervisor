@@ -1,61 +1,79 @@
-<template>
-    <section class="container">
-        <div>
-            <logo />
-            <h1 class="title">
-                supervisor
-            </h1>
-            <h2 class="subtitle">
-                My fantastic Nuxt.js project
-            </h2>
-            <div class="links">
-                <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-                <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
-            </div>
-        </div>
-    </section>
+<template lang="pug">
+    section.container
+        el-row(:gutter="30", v-for="(listRow, index) in items", :key="index")
+            el-col(:md="8", :sm="12", v-for="col in listRow" :key="col.id")
+                el-card.card
+                    div(slot="header")
+                        span {{col.name}}
+                        el-button.card-link(type="text")
+                            nuxt-link(:to="'/detail/' + col.link") 查看详情
+                    .card-list-item(v-for="item in col.item", :key="item.name")
+                        span {{item.name}}
+                        span :
+                        span.value {{item.message}}
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
+import cardData from '~/mock/Type';
 
 export default {
-    components: {
-        Logo
+    data() {
+        return {
+            cardData
+        };
+    },
+    computed: {
+        items() {
+            let arr = [];
+            let newArr = [];
+
+            if (cardData.length <= 3) {
+                arr = Array.of(cardData);
+            }
+            else {
+                cardData.forEach((item, i) => {
+                    newArr.push(item);
+                    if (i % 3 === 2 || i === cardData.length - 1) {
+                        arr.push(newArr);
+                        newArr = [];
+                    }
+                });
+            }
+
+            return arr;
+        }
     }
-}
+};
 
 </script>
 
-<style>
-    .container {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+<style lang="less" scoped>
+
+.container {
+    // padding-left: @offsetLeft;
+
+    .card {
+        margin-bottom: 20px;
     }
 
-    .title {
-        font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-            'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        display: block;
-        font-weight: 300;
-        font-size: 100px;
-        color: #35495e;
-        letter-spacing: 1px;
+    .card-link {
+        float: right;
+        padding: 3px 0;
+
+        a {
+            color: inherit;
+            outline: none;
+            text-decoration: none;
+        }
     }
 
-    .subtitle {
-        font-weight: 300;
-        font-size: 42px;
-        color: #526488;
-        word-spacing: 5px;
-        padding-bottom: 15px;
-    }
+    .card-list-item {
+        margin-bottom: 16px;
 
-    .links {
-        padding-top: 15px;
+        .value {
+            padding-left: 16px;
+        }
     }
+}
 
 </style>

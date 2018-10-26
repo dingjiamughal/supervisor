@@ -1,7 +1,9 @@
 const pkg = require('./package');
-const baseUrl = '/supervisor';
+// const baseUrl = '/supervisor';
+const nodeExternals = require('webpack-node-externals');
+
 module.exports = {
-    mode: 'spa',
+    mode: 'universal',
     progress: true,
 
     /*
@@ -41,14 +43,17 @@ module.exports = {
      ** Global CSS
      */
     css: [
-        'element-ui/lib/theme-chalk/index.css'
+        'normalize.css/normalize.css',
+        'element-ui/lib/theme-chalk/index.css',
+        '~css/common.css'
     ],
 
     /*
      ** Plugins to load before mounting the App
      */
     plugins: [
-        '@/plugins/element-ui'
+        {src: '@/plugins/element-ui'},
+        {src: '@/plugins/vue-echarts'}
     ],
     pugPlain: {
 
@@ -72,21 +77,31 @@ module.exports = {
      ** Build configuration
      */
     build: {
+        styleResources: {
+            less: './css/variable/*.less'
+        },
         /*
          ** You can extend webpack config here
          */
         extend(config, ctx) {
-
+            if (ctx.isServer) {
+                config.externals = [
+                    nodeExternals({
+                        // whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i]
+                        whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i, /^vue-echarts/]
+                    })
+                ];
+            }
         }
     },
 
     router: {
-        base: baseUrl,
+        // base: baseUrl,
         extendRoutes(routes, resolve) {
             routes.push({
                 name: 'custom',
                 path: '*',
-                component: resolve(__dirname, 'layouts/404.vue')
+                component: resolve(__dirname, 'pages/404.vue')
             });
         }
     }
