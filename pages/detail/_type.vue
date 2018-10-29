@@ -1,39 +1,143 @@
 <template lang="pug">
-    section
-        e-charts(:options="polar")
-        //- p 123213
+    .detail
+        el-tabs(tab-position="left")
+            el-tab-pane(label="xx监控")
+                .chart-wrapper
+                    a-title(title="xx监控")
+                    .chart(ref="chart")
+            el-tab-pane(label="错误信息")
+                com-error(:table-data="errorTableData", :current-page="2")
+            el-tab-pane(label="活动状态")
+                .activity-table-wrapper
+                    a-title(title="活动状态")
+                    activity-table(:table-data="tableDataA")
 </template>
 
 <script>
-// import ECharts from 'vue-echarts/components/ECharts';
-// import 'echarts/lib/chart/line';
-// import 'echarts/lib/component/title';
+import ATitle from '~/components/Title';
+import ComError from '~/components/detail/Error';
+import ActivityTable from '~/components/Activity';
 
 export default {
-    fetch({
-        store,
-        route,
-        query
-    }) {
-        const type = route.params.type;
+    components: {
+        ATitle,
+        ComError,
+        ActivityTable
     },
-    // components: {
-    //     EChart: ECharts
+    // created() {
+    //     console.log(this.supervisor)
     // },
     data() {
-        let data = [];
-
-        for (let i = 0; i <= 360; i++) {
-            let t = i / 180 * Math.PI;
-            let r = Math.sin(2 * t) * Math.cos(2 * t);
-            data.push([r, i]);
-        }
-
         return {
-            polar: {
-                title: {
-                    text: '折线图堆叠'
-                },
+            errorTableData: [{
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            },
+            {
+                errorData: 'xxxxxxxxxxxxxxxxxxx',
+                count: '1',
+                originFile: 'ooooooooooo'
+            }],
+            tableDataA: [{
+                uid: 'uid123',
+                verb: 'click',
+                object: 'xvcasfwevadv'
+            },
+            {
+                uid: 'uid123',
+                verb: 'click',
+                object: 'xvcasfwevadv'
+            },
+            {
+                uid: 'uid123',
+                verb: 'click',
+                object: 'xvcasfwevadv'
+            },
+            {
+                uid: 'uid123',
+                verb: 'click',
+                object: 'xvcasfwevadv'
+            }]
+        };
+    },
+    methods: {
+        echartsInit() {
+            const myChart = this.$echarts.init(this.$refs.chart);
+            myChart.setOption({
+                // title: {
+                //     text: '折线图堆叠'
+                // },
                 tooltip: {
                     trigger: 'axis'
                 },
@@ -90,9 +194,30 @@ export default {
                         data: [820, 932, 901, 934, 1290, 1330, 1320]
                     }
                 ]
-            }
-        };
+            });
+        }
+
+    },
+    mounted() {
+        this.echartsInit();
     }
 };
 
 </script>
+
+<style lang="less" scoped>
+.chart-wrapper,
+.error-table-wrapper,
+.activity-table-wrapper {
+    margin-bottom: 20px;
+}
+.detail {
+
+}
+
+.chart {
+    width: 100%;
+    height: 300px;
+    background: #fff;
+}
+</style>

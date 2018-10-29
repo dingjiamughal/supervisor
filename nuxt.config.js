@@ -6,9 +6,6 @@ module.exports = {
     mode: 'universal',
     progress: true,
 
-    /*
-     ** Headers of the page
-     */
     head: {
         title: pkg.name,
         meta: [{
@@ -31,54 +28,56 @@ module.exports = {
         }]
     },
 
-    /*
-     ** Customize the progress-bar color
-     */
     loading: {
         color: '#46a0fc',
         height: '3px'
     },
 
-    /*
-     ** Global CSS
-     */
     css: [
         'normalize.css/normalize.css',
         'element-ui/lib/theme-chalk/index.css',
         '~css/common.css'
     ],
 
-    /*
-     ** Plugins to load before mounting the App
-     */
     plugins: [
         {src: '@/plugins/element-ui'},
-        {src: '@/plugins/vue-echarts'}
+        {src: '@/plugins/echarts'}
     ],
     pugPlain: {
 
     },
 
-    /*
-     ** Nuxt.js modules
-     */
     modules: [
         // Doc: https://github.com/nuxt-community/axios-module#usage
         '@nuxtjs/axios'
     ],
-    /*
-     ** Axios module configuration
-     */
+
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
     },
 
-    /*
-     ** Build configuration
-     */
     build: {
         styleResources: {
             less: './css/variable/*.less'
+        },
+
+        babel: {
+            plugins: [
+                [
+                    'component', {
+                        libraryName: 'element-ui',
+                        styleLibraryName: 'theme-chalk'
+                    }
+                ],
+                // [
+                //     'component', {
+                //         libraryName: 'echarts',
+                //         // libDir: 'lib',
+                //         style: false
+                //     },
+                //     'echarts'
+                // ]
+            ]
         },
         /*
          ** You can extend webpack config here
@@ -88,7 +87,7 @@ module.exports = {
                 config.externals = [
                     nodeExternals({
                         // whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i]
-                        whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i, /^vue-echarts/]
+                        whitelist: [/es6-promise|\.(?!(?:js|json)$).{1,5}$/i, /^echarts/]
                     })
                 ];
             }

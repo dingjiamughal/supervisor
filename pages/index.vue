@@ -1,5 +1,6 @@
 <template lang="pug">
     section.container
+        a-title(a-title="sadfa的萨芬")
         el-row(:gutter="30", v-for="(listRow, index) in items", :key="index")
             el-col(:md="8", :sm="12", v-for="col in listRow" :key="col.id")
                 el-card.card
@@ -15,12 +16,15 @@
 
 <script>
 import cardData from '~/mock/Type';
-
+import ATitle from '~/components/Title';
 export default {
     data() {
         return {
             cardData
         };
+    },
+    components: {
+        ATitle
     },
     computed: {
         items() {
