@@ -2,15 +2,15 @@
     .error-wrapper
         a-title(title="错误信息")
         .error-table-wrapper(ref="tableWrapper")
-            error-table(:table-data="tableData", :height="maxHeight")
+            error-table(:table-data="tableData")
         el-pagination.pagination(
-            background
+            background,
             @size-change="handleSizeChange",
             @current-change="handleCurrentChange",
             :current-page="currentPage",
             :page-sizes="[10, 30, 50]",
             :page-size="10",
-
+            :pager-count="5",
             layout="total, sizes, prev, pager, next, jumper",
             :total="100"
         )
@@ -36,14 +36,7 @@ export default {
         }
     },
     computed: {
-        maxHeight() {
-            let tbHeight;
-            this.$nextTick(() => {
-                console.log(this.$refs.tableWrapper.offsetHeight)
-                tbHeight = this.$refs.tableWrapper.offsetHeight > 50 ? 50 : this.$refs.tableWrapper.offsetHeight - 50;
-            });
-            return tbHeight;
-        }
+
     },
 
     methods: {
@@ -61,10 +54,12 @@ export default {
 .error-wrapper {
 
     .error-table-wrapper {
-        height: ~'calc(100vh - 200px)';
+        height: ~'calc(100vh - 180px)';
+        overflow: auto;
     }
 }
 .pagination {
     text-align: right;
+    margin: 20px 0 0;
 }
 </style>

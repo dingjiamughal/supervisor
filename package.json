@@ -2,6 +2,10 @@
   "name": "supervisor",
   "version": "1.0.0",
   "description": "My majestic Nuxt.js project",
+  "keywords": [
+    "supervisor",
+    "EasyDL"
+  ],
   "author": "dingjia",
   "private": true,
   "scripts": {
@@ -24,6 +28,7 @@
     "babel-plugin-component": "^1.1.1",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-prettier": "2.6.2",
+    "koa-router": "^7.4.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "nodemon": "^1.11.0",

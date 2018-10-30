@@ -17,10 +17,11 @@ export default {
 
 <style lang="less" scoped>
 .title {
-    font-size: 24px;
+    padding-left: 14px;
+    border-left: 4px solid @blue;
+    color: #333;
+    margin-bottom: 16px;
     font-weight: 700;
-    color: #d64244;
-    padding-bottom: 8px;
 }
 </style>
 

@@ -1,4 +1,6 @@
+/* eslint-disable fecs-no-require */
 const Koa = require('koa');
+const KoaRouter = require('koa-router');
 const consola = require('consola');
 const {
     Nuxt,
@@ -6,12 +8,24 @@ const {
 } = require('nuxt');
 
 const app = new Koa();
+const router = new KoaRouter();
 const host = process.env.HOST || 'localhost';
-const port = process.env.PORT || 3006;
+const port = process.env.PORT || 8801;
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js');
 config.dev = !(app.env === 'production');
+
+if (config.dev) {
+    router.get('/api/test', async (ctx, next) => {
+        ctx.body = {
+            errno: 0,
+            data: 'hahaha'
+        };
+    });
+
+    app.use(router.routes(), router.allowedMethods());
+}
 
 async function start() {
     // Instantiate nuxt.js

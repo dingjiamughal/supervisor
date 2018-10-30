@@ -1,6 +1,6 @@
 <template lang="pug">
     section.container
-        a-title(a-title="sadfa的萨芬")
+        p {{counter}}
         el-row(:gutter="30", v-for="(listRow, index) in items", :key="index")
             el-col(:md="8", :sm="12", v-for="col in listRow" :key="col.id")
                 el-card.card
@@ -17,6 +17,8 @@
 <script>
 import cardData from '~/mock/Type';
 import ATitle from '~/components/Title';
+import {mapState} from 'vuex';
+
 export default {
     data() {
         return {
@@ -26,7 +28,21 @@ export default {
     components: {
         ATitle
     },
+    fetch(ctx) {
+        // return Promise.all([
+        //     ctx.store.dispatch('getCount', 'zxcv')
+        // ]);
+
+        return ctx.$axios.$get('/api/test').then(res => {
+            console.log(res);
+        });
+
+
+    },
     computed: {
+        ...mapState([
+            'counter'
+        ]),
         items() {
             let arr = [];
             let newArr = [];

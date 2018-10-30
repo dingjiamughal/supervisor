@@ -3,7 +3,7 @@ const pkg = require('./package');
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-    mode: 'universal',
+    // mode: 'universal',
     progress: true,
 
     head: {
@@ -19,6 +19,11 @@ module.exports = {
                 hid: 'description',
                 name: 'description',
                 content: pkg.description
+            },
+            {
+                hid: 'keywords',
+                name: 'keywords',
+                content: pkg.keywords
             }
         ],
         link: [{
@@ -43,9 +48,7 @@ module.exports = {
         {src: '@/plugins/element-ui'},
         {src: '@/plugins/echarts'}
     ],
-    pugPlain: {
-
-    },
+    pugPlain: {},
 
     modules: [
         // Doc: https://github.com/nuxt-community/axios-module#usage
@@ -54,12 +57,22 @@ module.exports = {
 
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
+        proxy: true
+    },
+
+    proxy: {
+        '/api/': 'http://localhost:8801'
     },
 
     build: {
         styleResources: {
             less: './css/variable/*.less'
         },
+
+        // vendor: [
+        //     'element-ui',
+        //     'echarts'
+        // ],
 
         babel: {
             plugins: [
@@ -93,6 +106,15 @@ module.exports = {
             }
         }
     },
+
+    // dev: {
+    //     proxyTable: {
+    //         '/api': {
+    //             target: 'http://localhost:3000',
+    //             secure: false
+    //         }
+    //     }
+    // },
 
     router: {
         // base: baseUrl,
