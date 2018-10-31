@@ -57,12 +57,14 @@ module.exports = {
 
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
-        proxy: true
+        proxy: true,
+        prefix: '/api',
+        port: process.env.NODE_ENV === 'development' ? 8801 : 8801
     },
 
-    proxy: {
-        '/api/': 'http://localhost:8801'
-    },
+    // proxy: {
+    //     '/api/': 'http://localhost:8801'
+    // },
 
     build: {
         styleResources: {

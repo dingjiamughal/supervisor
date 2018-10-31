@@ -1,8 +1,7 @@
 <template lang="pug">
     section.container
-        p {{counter}}
-        el-row(:gutter="30", v-for="(listRow, index) in items", :key="index")
-            el-col(:md="8", :sm="12", v-for="col in listRow" :key="col.id")
+        el-row(:gutter="30")
+            el-col(:md="8", :sm="12", v-for="col in cardData" :key="col.id")
                 el-card.card
                     div(slot="header")
                         span {{col.name}}
@@ -15,45 +14,38 @@
 </template>
 
 <script>
-import cardData from '~/mock/Type';
 import ATitle from '~/components/Title';
 import {mapState} from 'vuex';
 
 export default {
     data() {
         return {
-            cardData
+            // cardData
         };
     },
     components: {
         ATitle
     },
     fetch(ctx) {
-        // return Promise.all([
-        //     ctx.store.dispatch('getCount', 'zxcv')
-        // ]);
-
-        return ctx.$axios.$get('/api/test').then(res => {
-            console.log(res);
-        });
-
-
+        return Promise.all([
+            ctx.store.dispatch('getCount')
+        ]);
     },
     computed: {
         ...mapState([
-            'counter'
+            'cardData'
         ]),
         items() {
             let arr = [];
             let newArr = [];
 
-            if (cardData.length <= 3) {
-                arr = Array.of(cardData);
+            if (this.cardData.length <= 3) {
+                arr = Array.of(this.cardData);
             }
             else {
-                cardData.forEach((item, i) => {
+                this.cardData.forEach((item, i) => {
                     newArr.push(item);
-                    if (i % 3 === 2 || i === cardData.length - 1) {
+                    if (i % 3 === 2 || i === this.cardData.length - 1) {
                         arr.push(newArr);
                         newArr = [];
                     }

@@ -1,60 +1,53 @@
-/* eslint-disable fecs-no-require */
-const Koa = require('koa');
-const KoaRouter = require('koa-router');
-const consola = require('consola');
+const express = require('express');
 const {
     Nuxt,
     Builder
 } = require('nuxt');
-
-const app = new Koa();
-const router = new KoaRouter();
+const app = express();
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8801;
+const path = require('path');
 
-// Import and Set Nuxt.js options
-let config = require('../nuxt.config.js');
-config.dev = !(app.env === 'production');
+const config = require('../nuxt.config.js');
 
-if (config.dev) {
-    router.get('/api/test', async (ctx, next) => {
-        ctx.body = {
-            errno: 0,
-            data: 'hahaha'
-        };
-    });
+if (process.env.NODE_ENV === 'development') {
+    const mockup = require('./mockup');
 
-    app.use(router.routes(), router.allowedMethods());
+    const bodyParser = require('body-parser');
+    const multer = require('multer');
+    const upload = multer();
+    // for parsing application/json
+    app.use('/api', bodyParser.json());
+    // for parsing application/x-www-form-urlencoded
+    app.use('/api', bodyParser.urlencoded({extended: true}));
+    // for parsing multipart/form-data
+    app.use('/api', upload.any());
+
+    app.use('/api', mockup({
+        type: 'uri',
+        path: path.resolve(__dirname, '../mock'),
+        delay() {
+            return Math.random() * 1000 + 500;
+        },
+        method: 'all'
+    }));
 }
 
 async function start() {
-    // Instantiate nuxt.js
+    // Init Nuxt.js
     const nuxt = new Nuxt(config);
 
-    // Build in development
-    if (config.dev) {
+    // Build only in dev mode
+    if (process.env.NODE_ENV === 'development') {
         const builder = new Builder(nuxt);
         await builder.build();
     }
 
-    app.use(ctx => {
-        ctx.status = 200; // koa defaults to 404 when it sees that status is unset
+    // Give nuxt middleware to express
+    app.use(nuxt.render);
 
-        return new Promise((resolve, reject) => {
-            ctx.res.on('close', resolve);
-            ctx.res.on('finish', resolve);
-            nuxt.render(ctx.req, ctx.res, promise => {
-                // nuxt.render passes a rejected promise into callback on error.
-                promise.then(resolve).catch(reject);
-            });
-        });
-    });
-
-    app.listen(port, host);
-    consola.ready({
-        message: `Server listening on http://${host}:${port}`,
-        badge: true
-    });
+    // Listen the server
+    app.listen(port);
+    console.log('Server listening on http://' + host + ':' + port); // eslint-disable-line no-console
 }
-
 start();
