@@ -6,7 +6,7 @@
                     div(slot="header")
                         span {{col.name}}
                         el-button.card-link(type="text")
-                            nuxt-link(:to="'/detail/' + col.link") 查看详情
+                            nuxt-link(:to="{path: '/detail/' + col.link, query: {element: 'performance'}}") 查看详情
                     .card-list-item(v-for="item in col.item", :key="item.name")
                         span {{item.name}}
                         span :
@@ -28,7 +28,7 @@ export default {
     },
     fetch(ctx) {
         return Promise.all([
-            ctx.store.dispatch('getCount')
+            ctx.store.dispatch('getTypeList')
         ]);
     },
     computed: {

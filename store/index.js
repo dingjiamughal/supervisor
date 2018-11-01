@@ -3,15 +3,14 @@ export const state = () => ({
 });
 
 export const mutations = {
-    setCount(state, payload) {
+    setTypeList(state, payload) {
         state.cardData = payload;
     }
 };
 
 export const actions = {
-    getCount(ctx, data) {
-        return this.$axios.$get('typeList').then(data => {
-            ctx.commit('setCount', data.result);
-        });
+    async getTypeList(ctx, data) {
+        const typeList = await this.ajax('typeList');
+        ctx.commit('setTypeList', typeList);
     }
 };

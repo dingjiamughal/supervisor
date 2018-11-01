@@ -1,5 +1,6 @@
 <template lang="pug">
     el-table.activity-table(
+        v-loading="activityLoading",
         :data="tableData"
         border
     )
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
 export default {
     data() {
         return {
@@ -27,6 +29,11 @@ export default {
     },
     props: {
         tableData: Array
+    },
+    computed: {
+        ...mapState('detail', [
+            'activityLoading'
+        ])
     }
 };
 </script>

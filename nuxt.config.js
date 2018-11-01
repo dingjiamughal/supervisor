@@ -46,7 +46,8 @@ module.exports = {
 
     plugins: [
         {src: '@/plugins/element-ui'},
-        {src: '@/plugins/echarts'}
+        {src: '@/plugins/echarts'},
+        {src: '@/plugins/ajax'}
     ],
     pugPlain: {},
 
@@ -59,7 +60,8 @@ module.exports = {
         // See https://github.com/nuxt-community/axios-module#options
         proxy: true,
         prefix: '/api',
-        port: process.env.NODE_ENV === 'development' ? 8801 : 8801
+        port: process.env.NODE_ENV === 'development' ? 8801 : 8801,
+        progress: false
     },
 
     // proxy: {

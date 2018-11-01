@@ -1,7 +1,7 @@
 <template lang="pug">
     .error-wrapper
         a-title(title="错误信息")
-        .error-table-wrapper(ref="tableWrapper")
+        .error-table-wrapper(ref="tableWrapper", v-loading.lock="loading")
             error-table(:table-data="tableData")
         el-pagination.pagination(
             background,
@@ -33,6 +33,10 @@ export default {
         currentPage: {
             type: Number,
             default: 1
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -41,10 +45,16 @@ export default {
 
     methods: {
         handleSizeChange(v) {
-            console.log(`每页${v}条`);
+            this.$emit('changeSize', {
+                type: 'error',
+                size: v
+            });
         },
         handleCurrentChange(v) {
-            console.log(`当前页：${v}`);
+            this.$emit('changeNo', {
+                type: 'error',
+                no: v
+            });
         }
     }
 };
