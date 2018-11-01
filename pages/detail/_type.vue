@@ -6,7 +6,7 @@
             el-tab-pane(label="错误信息", name="errorMessage")
                 com-error(:table-data="errorList", :current-page="errorPageNo", :loading="errorLoading", @changeSize="handleChangeSize", @changeNo="handleChangeNo")
             el-tab-pane(label="活动状态", name="activityStatus")
-                com-activity(:table-data="activityList", :current-page="activityPageNo")
+                com-activity(:table-data="activityList", :current-page="activityPageNo", :loading="activityLoading", @changeSize="handleChangeSize", @changeNo="handleChangeNo")
 </template>
 
 <script>
@@ -43,6 +43,7 @@ export default {
             'errorList',
             'activityList',
             'errorLoading',
+            'activityLoading',
             'errorPageNo',
             'activityPageNo',
             'errorPageSize',
@@ -70,12 +71,24 @@ export default {
                     errorPageSize: size
                 });
             }
+            if (type === 'activity') {
+                this.$store.dispatch('detail/changeActivityParams', {
+                    activityPageNo: 1,
+                    activityPageSize: size
+                });
+            }
         },
 
         handleChangeNo({type, no}) {
             if (type === 'error') {
                 this.$store.dispatch('detail/changeErrorParams', {
                     errorPageNo: no
+                });
+            }
+
+            if (type === 'activity') {
+                this.$store.dispatch('detail/changeActivityParams', {
+                    activityPageNo: no
                 });
             }
         }

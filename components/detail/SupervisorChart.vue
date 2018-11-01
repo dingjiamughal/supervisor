@@ -10,6 +10,9 @@ export default {
     components: {
         ATitle
     },
+    fetch() {
+
+    },
     methods: {
         initChart() {
             const lineChart = this.$echarts.init(this.$refs.chart);
@@ -82,6 +85,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.chart-wrapper {
+    width: 100%;
+}
 .chart {
     width: 100%;
     height: 500px;

@@ -1,5 +1,5 @@
 <template lang="pug">
-    .error-wrapper
+    .activity-wrapper
         a-title(title="活动状态")
         .activity-table-wrapper
             activity-table(:table-data="tableData")
@@ -42,10 +42,16 @@ export default {
 
     methods: {
         handleSizeChange(v) {
-            console.log(`每页${v}条`);
+            this.$emit('changeSize', {
+                type: 'activity',
+                size: v
+            });
         },
         handleCurrentChange(v) {
-            console.log(`当前页：${v}`);
+            this.$emit('changeNo', {
+                type: 'activity',
+                no: v
+            });
         }
     }
 };

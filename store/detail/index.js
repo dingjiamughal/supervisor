@@ -48,12 +48,16 @@ export const actions = {
         const result = await this.ajax('activityList', {
             pageSize: ctx.state.activityPageSize,
             pageNo: ctx.state.activityPageNo,
-            ...data
+            // ...data
         });
         ctx.commit('setActivityList', result);
     },
     async changeErrorParams(ctx, data) {
         ctx.commit('setErrorParams', data);
         ctx.dispatch('getErrorList');
+    },
+    async changeActivityParams(ctx, data) {
+        ctx.commit('setErrorParams', data);
+        ctx.dispatch('getActivityList');
     }
 };
