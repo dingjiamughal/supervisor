@@ -1,34 +1,35 @@
 module.exports = () => {
+    const result = () => Array(7).fill(1).map(() => 100 + Math.random() * 500);
     return [
         {
             name: 'pro1',
             type: 'line',
-            stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            stack: null,
+            data: result()
         },
         {
             name: 'pro2',
             type: 'line',
-            stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            stack: null,
+            data: result()
         },
         {
             name: 'pro3',
             type: 'line',
-            stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            stack: null,
+            data: result()
         },
         {
             name: 'pro4',
             type: 'line',
-            stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            stack: null,
+            data: result()
         },
         {
             name: 'pro5',
             type: 'line',
-            stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
+            stack: null,
+            data: result()
         }
     ];
 };

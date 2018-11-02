@@ -1,21 +1,28 @@
 <template lang="pug">
     .chart-wrapper
         a-title(title="xx监控")
-        .chart(ref="chart")
+        i.el-icon-refresh.refresh(@click="$emit('refresh')")
+        .chart(ref="chart", v-loading="performanceLoading")
 </template>
 
 <script>
 import ATitle from '~/components/Title';
+import {mapState} from 'vuex';
 export default {
     components: {
         ATitle
     },
-    fetch() {
-
+    props: {
+        chartData: {
+            type: Array,
+            default: () => []
+        }
     },
+
     methods: {
         initChart() {
             const lineChart = this.$echarts.init(this.$refs.chart);
+            let self = this;
             lineChart.setOption({
                 // title: {
                 //     text: '标题'
@@ -32,47 +39,28 @@ export default {
                     bottom: '3%',
                     containLabel: true
                 },
-
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                    data: ['1', '2', '3', '4', '5', '6', '7']
                 },
                 yAxis: {
                     type: 'value'
                 },
-                series: [{
-                        name: 'pro1',
-                        type: 'line',
-                        stack: '总量',
-                        data: [120, 132, 101, 134, 90, 230, 210]
-                    },
-                    {
-                        name: 'pro2',
-                        type: 'line',
-                        stack: '总量',
-                        data: [220, 182, 191, 234, 290, 330, 310]
-                    },
-                    {
-                        name: 'pro3',
-                        type: 'line',
-                        stack: '总量',
-                        data: [150, 232, 201, 154, 190, 330, 410]
-                    },
-                    {
-                        name: 'pro4',
-                        type: 'line',
-                        stack: '总量',
-                        data: [320, 332, 301, 334, 390, 330, 320]
-                    },
-                    {
-                        name: 'pro5',
-                        type: 'line',
-                        stack: '总量',
-                        data: [820, 932, 901, 934, 1290, 1330, 1320]
-                    }
-                ]
+                series: this.chartData
             });
+        }
+    },
+    computed: {
+        ...mapState('detail', [
+            'performanceLoading'
+        ])
+    },
+    watch: {
+        performanceLoading(oldVal, newVal) {
+            if (newVal) {
+                this.initChart();
+            }
         }
     },
     mounted() {
@@ -92,5 +80,17 @@ export default {
     width: 100%;
     height: 500px;
     background: #fff;
+}
+.refresh {
+    position: absolute;
+    font-size: 24px;
+    top: 40px;
+    right: 40px;
+    z-index: 9;
+    cursor: pointer;
+
+    &:hover {
+        opacity: .6;
+    }
 }
 </style>

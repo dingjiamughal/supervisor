@@ -2,7 +2,7 @@
     .detail
         el-tabs(tab-position="left", v-model="cardType", @tab-click="handleClickTab")
             el-tab-pane(label="xx监控", name="performance")
-                com-chart
+                com-chart(:chart-data="performance", @refresh="upDateChart")
             el-tab-pane(label="错误信息", name="errorMessage")
                 com-error(:table-data="errorList", :current-page="errorPageNo", :loading="errorLoading", @changeSize="handleChangeSize", @changeNo="handleChangeNo")
             el-tab-pane(label="活动状态", name="activityStatus")
@@ -24,22 +24,19 @@ export default {
     watchQuery: ['element'],
     async fetch({store, route, query}) {
         const {params, ...rest} = route;
+        await store.commit('detail/setType', params.type);
+        const types = {
+            performance: 'getPerformance',
+            errorMessage: 'getErrorList',
+            activityStatus: 'getActivityList'
+        };
 
-        if (query.element === 'errorMessage') {
-            // console.log(this.errorPageSize)
-            await store.dispatch('detail/getErrorList', {
-                type: params.type
-            });
-        }
-
-        if (query.element === 'activityStatus') {
-            await store.dispatch('detail/getActivityList', {
-                type: params.type
-            });
-        }
+        await store.dispatch(`detail/${types[query.element]}`);
     },
     computed: {
         ...mapState('detail', [
+            'type',
+            'performance',
             'errorList',
             'activityList',
             'errorLoading',
@@ -56,6 +53,10 @@ export default {
         };
     },
     methods: {
+        upDateChart() {
+            this.$store.dispatch('detail/getPerformance');
+        },
+
         handleClickTab(tab, event) {
             this.$router.push({
                 query: {

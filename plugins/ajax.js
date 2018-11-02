@@ -1,10 +1,4 @@
 import Vue from 'vue';
-// import guid from '~/util/guid';
-
-// let logger;
-// if (!process.browser) {
-//     logger = require('~/util/logger');
-// }
 
 export default function ({app, $axios, redirect, store, error}) {
 
@@ -30,7 +24,6 @@ export default function ({app, $axios, redirect, store, error}) {
             return response;
         }
         catch (ex) {
-            // logger.error(['axiosResponseTransform', store.state.parentLogId, response.data, ex.message]);
             error();
         }
     });
@@ -46,8 +39,6 @@ export default function ({app, $axios, redirect, store, error}) {
             ...options
         };
         config.headers['X-Requested-With'] = 'XMLHttpRequest';
-        // config.headers['Parent-Log-Id'] = store.state.parentLogId;
-        // config.headers['Log-Id'] = logId;
         let postData = {
             ...data,
             method
@@ -59,9 +50,6 @@ export default function ({app, $axios, redirect, store, error}) {
         }
         return new Promise((resolve, reject) => {
             $axios(config).then(({data: responseData}) => {
-                // if (!process.browser) {
-                //     logger.info(['axiosServerSuccess', store.state.parentLogId, logId, postData, responseData]);
-                // }
                 if (options.handleData) {
                     responseData = options.handleData(responseData);
                 }
@@ -76,18 +64,10 @@ export default function ({app, $axios, redirect, store, error}) {
                     } else {
                         redirect(data);
                     }
-                    // reject(responseData);
                     return;
                 }
-                // if (!process.browser) {
-                //     logger.error(['axiosServerFail', logId, postData, responseData]);
-                // }
                 reject(responseData);
-                // resolve();
             }).catch(err => {
-                // if (!process.browser) {
-                //     logger.error(['axiosCatch', logId, postData, err.message]);
-                // }
                 if (err.response) {
                     if (err.response.status >= 300 && err.response.status < 400) {
                         /* eslint-disable fecs-camelcase */
