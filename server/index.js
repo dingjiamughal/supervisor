@@ -4,11 +4,15 @@ const {
     Builder
 } = require('nuxt');
 const app = express();
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 8801;
 const path = require('path');
 
 const config = require('../nuxt.config.js');
+
+app.set('port', port);
+// const server = require('http').createServer(app);
+// const io = socketIo(server);
 
 if (process.env.NODE_ENV === 'development') {
     const mockup = require('./mockup');
@@ -47,7 +51,11 @@ async function start() {
     app.use(nuxt.render);
 
     // Listen the server
-    app.listen(port);
+    // app.listen(port);
+
+    const server = app.listen(port, host);
+    const socket = require('./socket')(server);
+
     console.log('Server listening on http://' + host + ':' + port); // eslint-disable-line no-console
 }
 start();

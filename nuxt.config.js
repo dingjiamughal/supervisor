@@ -47,7 +47,8 @@ module.exports = {
     plugins: [
         {src: '@/plugins/element-ui'},
         {src: '@/plugins/echarts'},
-        {src: '@/plugins/ajax'}
+        {src: '@/plugins/ajax'},
+        // {src: '@/plugins/socket', ssr: false}
     ],
     pugPlain: {},
 
@@ -85,15 +86,7 @@ module.exports = {
                         libraryName: 'element-ui',
                         styleLibraryName: 'theme-chalk'
                     }
-                ],
-                // [
-                //     'component', {
-                //         libraryName: 'echarts',
-                //         // libDir: 'lib',
-                //         style: false
-                //     },
-                //     'echarts'
-                // ]
+                ]
             ]
         },
         /*
