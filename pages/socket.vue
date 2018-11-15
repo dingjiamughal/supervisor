@@ -31,6 +31,18 @@
                     </div>
                 </div>
             </article>
+
+            <article class="media">
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong>id: {{ interval.user }}</strong>
+                            <br>
+                            {{ interval.text }}
+                        </p>
+                    </div>
+                </div>
+            </article>
         </div>
     </section>
 </template>
@@ -43,6 +55,7 @@ export default {
         return {
             message: '',
             messages: [],
+            interval: {},
             socket: ''
         };
     },
@@ -68,15 +81,17 @@ export default {
             // this.messages.push(message);
             this.socket.emit('send-message', message);
             this.message = '';
-            // this.getMessage();
-
         },
         getMessage() {
             this.socket = io();
             // this.messages = [];
-            this.socket.on('new-message', message => {
+            this.socket.on('update-message', message => {
                 console.log('message', message);
                 this.messages.push(message || {});
+            });
+
+            this.socket.on('interval', interval => {
+                this.interval = interval;
             });
         }
     }
